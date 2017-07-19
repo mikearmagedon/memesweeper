@@ -5,7 +5,9 @@
 #include <random>
 #include <algorithm>
 
-MemeField::MemeField(int nMemes)
+MemeField::MemeField(const Vei2 center, int nMemes)
+	:
+	mTopLeft(center - Vei2(mWidth * SpriteCodex::tileSize, mHeight * SpriteCodex::tileSize) / 2)
 {
 	assert(nMemes > 0 && nMemes < mWidth * mHeight);
 	std::random_device rd;
@@ -35,19 +37,19 @@ MemeField::MemeField(int nMemes)
 
 void MemeField::Draw(Graphics & rGfx) const
 {
-	rGfx.DrawRect(GetRect(), SpriteCodex::baseColor);
+	rGfx.DrawRect(RectI(mTopLeft, mWidth * SpriteCodex::tileSize, mHeight * SpriteCodex::tileSize), SpriteCodex::baseColor);
 	for (Vei2 gridPos = { 0, 0 }; gridPos.y < mHeight; gridPos.y++)
 	{
 		for (gridPos.x = 0; gridPos.x < mWidth; gridPos.x++)
 		{
-			TileAt(gridPos).Draw(gridPos * SpriteCodex::tileSize, mIsTriggered, rGfx);
+			TileAt(gridPos).Draw(mTopLeft + gridPos * SpriteCodex::tileSize, mIsTriggered, rGfx);
 		}
 	}
 }
 
 RectI MemeField::GetRect() const
 {
-	return RectI(0, mWidth * SpriteCodex::tileSize, 0, mHeight * SpriteCodex::tileSize);
+	return RectI(mTopLeft, mWidth * SpriteCodex::tileSize, mHeight * SpriteCodex::tileSize);
 }
 
 void MemeField::OnRevealClick(const Vei2 & rScreenPos)
@@ -94,7 +96,7 @@ const MemeField::Tile & MemeField::TileAt(const Vei2 & rGridPos) const
 
 Vei2 MemeField::ScreenToGrid(const Vei2 & rScreenPos) const
 {
-	return rScreenPos / SpriteCodex::tileSize;
+	return (rScreenPos - mTopLeft) / SpriteCodex::tileSize;
 }
 
 int MemeField::CountNeighborMemes(const Vei2 & rGridPos)

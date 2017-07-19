@@ -29,7 +29,7 @@ public:
 		int mNNeighborMemes = -1;
 	};
 public:
-	MemeField(int nMemes);
+	MemeField(const Vei2 center, int nMemes);
 	void Draw(Graphics & rGfx) const;
 	RectI GetRect() const;
 	void OnRevealClick(const Vei2 & rScreenPos);
@@ -40,6 +40,7 @@ private:
 	Vei2 ScreenToGrid(const Vei2 & rScreenPos) const;
 	int CountNeighborMemes(const Vei2 & rGridPos);
 private:
+	Vei2 mTopLeft;
 	static constexpr int mWidth = 20;
 	static constexpr int mHeight = 20;
 	Tile mField[mWidth * mHeight];
