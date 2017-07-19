@@ -6,7 +6,7 @@
 class SpriteCodex
 {
 public:
-	// mWidth and mHeight of all tiles
+	// width and height of all tiles
 	static constexpr int tileSize = 16;
 	// base color for all tiles
 	static constexpr Color baseColor = { 192,192,192 };
@@ -25,6 +25,8 @@ public:
 	static void DrawTileFlag( const Vei2& pos,Graphics& gfx );
 	static void DrawTileBomb( const Vei2& pos,Graphics& gfx );
 	static void DrawTileBombRed( const Vei2& pos,Graphics& gfx );
-	//Tile selector function valid input 0-8
-	static void DrawTileNumber( const Vei2& pos, int n, Graphics& gfx );
+	// Tile selector function valid input 0-8
+	static void DrawTileNumber( const Vei2& pos,int n,Graphics& gfx );
+	// Win Screen 254x192 center origin
+	static void DrawWin( const Vei2& pos,Graphics& gfx );
 };
